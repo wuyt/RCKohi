@@ -8,15 +8,17 @@ namespace RCKohi.Models.AccountViewModels
 {
     public class LoginViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "用户名不能为空")]
         [DataType(DataType.Text)]
+        [Display(Name = "用户名")]
         public string UserName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "密码不能为空")]
         [DataType(DataType.Password)]
+        [Display(Name = "密码")]
         public string Password { get; set; }
 
-        [Display(Name = "Remember me?")]
+        [Display(Name = "下次直接登录")]
         public bool RememberMe { get; set; }
     }
 }
