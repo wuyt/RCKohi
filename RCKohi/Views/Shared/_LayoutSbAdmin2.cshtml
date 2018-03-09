@@ -1,6 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using RCKohi.Models
 
+
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
@@ -67,7 +68,7 @@
                         <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        <li><a href="~/Manage/Index"><i class="fas fa-info-circle"></i>信息</a></li>
+                        <li><a href="~/Manage/Index"><i class="far fa-address-book"></i>信息</a></li>
                         <li><a href="~/Manage/ChangePassword"><i class="fas fa-key"></i>密码</a></li>
                         <li class="divider"></li>
                         <li>
@@ -86,18 +87,21 @@
                         <li>
                             <a href="~/Dashboard"><i class="fa fa-dashboard fa-fw"></i>面板</a>
                         </li>
-                        <li>
-                            <a href="#"><i class="fa fa-users fa-fw"></i> 用户信息<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="~/ApplicationUsers">用户列表</a>
-                                </li>
-                                <li>
-                                    <a href="~/ApplicationUsers/Create">新增用户</a>
-                                </li>
-                            </ul>
-                            <!-- /.nav-second-level -->
-                        </li>
+                        @if (User.IsInRole("admin"))
+                        {
+                            <li>
+                                <a href="#"><i class="fa fa-users fa-fw"></i> 用户信息<span class="fa arrow"></span></a>
+                                <ul class="nav nav-second-level">
+                                    <li>
+                                        <a href="~/ApplicationUsers">用户列表</a>
+                                    </li>
+                                    <li>
+                                        <a href="~/ApplicationUsers/Create">新增用户</a>
+                                    </li>
+                                </ul>
+                                <!-- /.nav-second-level -->
+                            </li>
+                        }
                         <li>
                             <a href="#"><i class="fa fa-video-camera fa-fw"></i>动画作品<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
