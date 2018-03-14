@@ -1,0 +1,55 @@
+﻿@model RCKohi.Models.Demo.Anime
+
+@{
+    ViewData["Title"] = "动画作品";
+    Layout = "~/Views/Shared/_LayoutSbAdmin2.cshtml";
+}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">编辑作品</div>
+            <div class="panel-body">
+                <form role="form" asp-action="Edit">
+                    <input type="hidden" asp-for="ID" />
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label"></label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Number" class="control-label"></label>
+                        <input asp-for="Number" class="form-control" />
+                        <span asp-validation-for="Number" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="BroadcastDate" class="control-label"></label>
+                        <input asp-for="BroadcastDate" class="form-control" />
+                        <span asp-validation-for="BroadcastDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="IndexShow" class="control-label"></label>
+                        <div class="checkbox">
+                            <label>
+                                @Html.RadioButtonFor(model => model.IndexShow, "True")是
+                            </label>
+                            <label>
+                                @Html.RadioButtonFor(model => model.IndexShow, "False")否
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div asp-validation-summary="All" class="text-danger"></div>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="保存"><i class="fa fa-floppy-o"></i>&nbsp;&nbsp;保存作品</button>
+                        <a asp-action="Index" class="btn btn-success" data-toggle="tooltip" data-placement="bottom" title="列表"><i class="fa fa-list"></i>&nbsp;&nbsp;返回列表</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

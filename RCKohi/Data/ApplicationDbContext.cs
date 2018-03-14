@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using RCKohi.Models;
+using RCKohi.Models.Demo;
 
 namespace RCKohi.Data
 {
@@ -16,6 +17,7 @@ namespace RCKohi.Data
         }
 
         public DbSet<ApplicationUser> ApplicationUser { get; set; }
+        public DbSet<Anime> Anime { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -24,5 +26,7 @@ namespace RCKohi.Data
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
         }
+
+        
     }
 }
