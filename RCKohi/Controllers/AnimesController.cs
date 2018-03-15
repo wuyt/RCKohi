@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ using X.PagedList;
 
 namespace RCKohi.Controllers
 {
+    [Authorize]
     public class AnimesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -21,10 +23,45 @@ namespace RCKohi.Controllers
         }
 
         // GET: Animes
-        public async Task<IActionResult> Index(int? page)
+        public async Task<IActionResult> Index(int? page, string searchString, string sortOrder)
         {
+            var animes = from s in _context.Anime
+                         select s;
+
+            ViewData["CurrentFilter"] = searchString;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                animes = animes.Where(s => s.Name.Contains(searchString));
+            }
+
+            ViewData["SortOrder"] = sortOrder;
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+            ViewData["NumberSortParm"] = sortOrder == "Number" ? "number_desc" : "Number";
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    animes = animes.OrderByDescending(s => s.Name);
+                    break;
+                case "Date":
+                    animes = animes.OrderBy(s => s.BroadcastDate);
+                    break;
+                case "date_desc":
+                    animes = animes.OrderByDescending(s => s.BroadcastDate);
+                    break;
+                case "Number":
+                    animes = animes.OrderBy(s => s.Number);
+                    break;
+                case "number_desc":
+                    animes = animes.OrderByDescending(s => s.Number);
+                    break;
+                default:
+                    animes = animes.OrderBy(s => s.Name);
+                    break;
+            }
+
             var pageNumber = page ?? 1;
-            return View(await _context.Anime.ToPagedListAsync(pageNumber,10));
+            return View(await animes.AsNoTracking().ToPagedListAsync(pageNumber, 10));
         }
 
         // GET: Animes/Details/5

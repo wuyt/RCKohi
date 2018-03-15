@@ -4,7 +4,7 @@
 
 @{
     ViewData["Title"] = "动画作品";
- Layout = "~/Views/Shared/_LayoutSbAdmin2.cshtml";
+    Layout = "~/Views/Shared/_LayoutSbAdmin2.cshtml";
 }
 <div class="row">
     <div class="col-lg-12">
@@ -14,17 +14,27 @@
                 <div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
                     <div class="row">
                         <div class="col-sm-12">
+                            <form asp-action="Index" method="get" role="form">
+                                <div class="form-group input-group">
+                                    <input type="text" name="SearchString" value="@ViewData["currentFilter"]" class="form-control" placeholder="搜索..." />
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="submit" value="Search">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </span>
+                                </div>
+                            </form>
                             <table class="table table-bordered table-hover table-striped">
                                 <thead>
                                     <tr>
                                         <th>
-                                            @Html.DisplayNameFor(model => model.Name)
+                                            <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]" asp-route-searchString="@ViewData["CurrentFilter"]">@Html.DisplayNameFor(model => model.Name)</a>
                                         </th>
                                         <th>
-                                            @Html.DisplayNameFor(model => model.Number)
+                                            <a asp-action="Index" asp-route-sortOrder="@ViewData["NumberSortParm"]" asp-route-searchString="@ViewData["CurrentFilter"]">@Html.DisplayNameFor(model => model.Number)</a>
                                         </th>
                                         <th>
-                                            @Html.DisplayNameFor(model => model.BroadcastDate)
+                                            <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]" asp-route-searchString="@ViewData["CurrentFilter"]">@Html.DisplayNameFor(model => model.BroadcastDate)</a>
                                         </th>
                                         <th>
                                             @Html.DisplayNameFor(model => model.IndexShow)
@@ -57,7 +67,7 @@
                                     }
                                 </tbody>
                             </table>
-                            @Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page }))
+                            @Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page, sortOrder = ViewData["SortOrder"], searchString = ViewData["CurrentFilter"] }))
                         </div>
                     </div>
                 </div>
